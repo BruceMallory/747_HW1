@@ -1,0 +1,154 @@
+---
+title: "747_HW1"
+author: "Bruce Mallory"
+date: "2/10/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+```
+
+## Part 1: Warm-Up
+
+```{r}
+a <- 1354
+b <- 9169
+c <- 3747
+d <- 4
+P1.1 <- a+b
+P1.2 <- b+c
+P1.3 <- P1.2/4
+P1.4 <- (d*a)-c
+P1.5 <- sum(a,b,c,d)
+```
+
+```{r echo=FALSE, comment=NA}
+cat(paste0("1. ", a, "+", b, " = ", P1.1))
+cat(paste0("2. ", b, "+", c, " = ", P1.2), "\n")
+cat(paste0("3. (", b, "+", c, " )/", d, " = ", P1.3), "\n")
+cat(paste0("4. (", d, "*", a, ")-", c, " = ", P1.4), "\n")
+cat(paste0("5. ", a, "+", b,"+", c,"+", c, " = ", P1.5), "\n")
+```
+
+## Part 2: Warm-Up
+
+```{r}
+var1<-6
+var2<-12
+var1<-var1+var2 
+var2<-var1+var2
+```
+The new var1 will be 18 (it overwrites the initial var1).  
+The new var2 will be 30 (it uses var1=18 and overwrites the initial var2)
+```{r eval=FALSE}
+vect1<-1:5 
+vect1<-c(vect1,sum(vect1))
+```
+The new vect1 will be a vector with 6 elements = {1, 2, 3, 4, 5, 15}
+```{r eval=FALSE}
+vect1<-c("3","6","9","12","15","18")
+vect1<-as.numeric(vect1)
+mean(vect1) 
+```
+## Part 3: Working with a dataset
+```{r echo=FALSE, comment=NA}
+cat(paste0(
+  "1. There are ",
+  nrow(mtcars),
+  " rows, and ",
+  ncol(mtcars),
+  " columns in the data frame."
+),
+"\n")
+cat(
+  paste(
+    "2. 'mtcars' follows the rules of 'tidy' data, because each observation (a specific car)",
+    "has it's own row, and each variable (e.g. mpg) has it's own column.",
+    sep = "\n"
+  )
+)
+T3 <-
+  data.frame(
+    row.names = NULL,
+    Col.Names = colnames(mtcars),
+    Which.measures = c(
+      "miles per gallon",
+      "number of cylinders",
+      "displacement",
+      "horsepower",
+      "rear axle ratio",
+      "weight",
+      "1/4 mile time",
+      "engine type",
+      "transmition type",
+      "number of gears",
+      "number of carburetors"
+    ),
+    Measurement.level = c(
+      "scale",
+      "ordinal",
+      "scale",
+      "scale",
+      "scale",
+      "scale",
+      "scale",
+      "nominal",
+      "nominal",
+      "ordinal",
+      "ordinal"
+    ),
+    R.class = sapply(mtcars, class),
+    better.class = c(
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "character",
+      "character",
+      "-",
+      "-"
+    )
+  )
+Q3 <-
+  kable(
+    T3,
+    col.names = gsub("[.]", " ", names(T3)),
+    align = "llllc",
+    caption = "Answers to Q#3 "
+  )
+Q3
+T4a <- "mtcars[mtcars&cyl==4, ]"
+T4b <- "mtcars[mtcars&mgp>30, ]"
+T4c <- "mtcars[mtcars&qsec<16, ]"
+T4 <- data.frame(
+  row.names=NULL,
+  The.subset = c("Four cylinder cars", "High mileage cars", "Fast cars"),
+  The.code = c(T4a, T4b, T4c),
+  Interesting.because = c("more appropriate for comparing mpg", "don't need gas guzzlers", "want fast cars")
+)
+Q4 <-
+  kable(
+    T4,
+    col.names = gsub("[.]", " ", names(T4)),
+    caption = "Answers to Q#4 (Note: I've used & instead of $ - the later is a special character and I couldn't figure out how to get kable() to escape this character.) "
+  )
+Q4
+```
+## Part 3: The GINI Coefficient
+```{r echo=FALSE, message=FALSE}
+World_Bank <- read_csv("~/MSSP/747 Social Data Analysis/Week2/World Bank.csv")
+names(World_Bank)[names(World_Bank)=="GINI.index..World.Bank.estimate."]<- "EconInequity"
+Two.a <- mean(World_Bank$EconInequity)
+Two.b <- min(World_Bank$EconInequity)
+Two.c <- max(World_Bank$EconInequity)
+Three.a <- sum(is.na(World_Bank$EconInequity))
+Three.b <- round(100*Three.a/length(World_Bank$EconInequity),1)
+Four <- World_Bank[!is.na(World_Bank$EconInequity),]
+Five <- Four[c("Country", "EconInequity")]
+Six <- 
+```
